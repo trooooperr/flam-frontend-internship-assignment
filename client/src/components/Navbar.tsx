@@ -1,23 +1,22 @@
 import React from "react";
-import { BookOpen, AlertTriangle } from "lucide-react";
+import { GraduationCap, AlertTriangle, Menu, Plus } from "lucide-react";
 
 interface NavbarProps {
   isMockData: boolean;
   activeTitle?: string;
   onNewClick: () => void;
+  onMenuClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ isMockData, activeTitle, onNewClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ isMockData, activeTitle, onNewClick, onMenuClick }) => {
   return (
     <header
       style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "16px 24px",
-        background: "rgba(15, 17, 26, 0.8)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        padding: "18px 32px",
+        background: "var(--bg-card)",
         borderBottom: "1px solid var(--border-color)",
         position: "sticky",
         top: 0,
@@ -25,29 +24,52 @@ export const Navbar: React.FC<NavbarProps> = ({ isMockData, activeTitle, onNewCl
         width: "100%",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <div
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        {/* Sidebar Toggle Button */}
+        <button
+          className="sidebar-toggle-btn"
+          onClick={onMenuClick}
           style={{
-            background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%)",
+            background: "transparent",
+            border: "none",
+            color: "var(--text-primary)",
+            cursor: "pointer",
             padding: "8px",
-            borderRadius: "8px",
+            borderRadius: "6px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 4px 10px rgba(139, 92, 246, 0.3)",
+            transition: "background var(--transition-fast)"
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = "#f1f5f9"}
+          onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+        >
+          <Menu size={20} />
+        </button>
+
+        <div
+          className="logo-container"
+          style={{
+            background: "linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%)",
+            padding: "8px",
+            borderRadius: "6px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <BookOpen size={20} color="white" />
+          <GraduationCap size={18} color="white" />
         </div>
         <div>
-          <h1 style={{ fontSize: "1.1rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-            AetherStudy<span style={{ color: "var(--primary)" }}>.ai</span>
+          <h1 className="brand-name-text" style={{ letterSpacing: "-0.02em", color: "var(--text-primary)" }}>
+            AetherStudy
           </h1>
         </div>
       </div>
 
       {activeTitle && (
         <div
+          className="active-title-pill"
           style={{
             fontSize: "0.875rem",
             color: "var(--text-secondary)",
@@ -56,9 +78,10 @@ export const Navbar: React.FC<NavbarProps> = ({ isMockData, activeTitle, onNewCl
             overflow: "hidden",
             textOverflow: "ellipsis",
             border: "1px solid var(--border-color)",
-            padding: "4px 12px",
+            padding: "6px 14px",
             borderRadius: "9999px",
-            background: "rgba(255, 255, 255, 0.02)",
+            background: "#f1f5f9",
+            fontWeight: 600
           }}
           title={activeTitle}
         >
@@ -68,13 +91,14 @@ export const Navbar: React.FC<NavbarProps> = ({ isMockData, activeTitle, onNewCl
 
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         {isMockData && (
-          <div className="banner" style={{ borderBottom: "none", padding: "4px 12px", borderRadius: "9999px" }}>
+          <div className="banner" style={{ borderBottom: "none", padding: "6px 14px", borderRadius: "9999px" }}>
             <AlertTriangle size={14} />
             <span>Mock Mode Active</span>
           </div>
         )}
-        <button onClick={onNewClick} className="btn btn-secondary" style={{ padding: "8px 16px", fontSize: "0.875rem" }}>
-          New Study Set
+        <button onClick={onNewClick} className="btn btn-secondary new-study-btn">
+          <Plus size={16} />
+          <span className="new-study-btn-text">New Study Set</span>
         </button>
       </div>
     </header>

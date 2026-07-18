@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sparkles, Brain, Cpu, MessageSquare } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface StudyInputProps {
   onSubmit: (topic: string, notes: string, difficulty: string) => void;
@@ -35,12 +35,12 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
   };
 
   return (
-    <div style={{ maxWidth: "680px", margin: "40px auto", padding: "0 20px" }}>
-      <div style={{ textAlign: "center", marginBottom: "32px" }}>
-        <h2 style={{ fontSize: "2.25rem", fontWeight: 800, marginBottom: "8px", background: "linear-gradient(135deg, #fff 30%, #a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          Accelerate Your Learning
+    <div style={{ maxWidth: "680px", margin: "60px auto", padding: "0 24px", position: "relative", zIndex: 10 }}>
+      <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <h2 className="landing-title">
+          Accelerate <span className="serif-highlight">your learning.</span>
         </h2>
-        <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem" }}>
+        <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", maxWidth: "560px", margin: "0 auto", lineHeight: 1.5 }}>
           Paste notes, code snippets, or a general topic, and watch the AI construct summaries, interactive flashcards, and quizzes in seconds.
         </p>
       </div>
@@ -48,11 +48,7 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
       <div className="card card-glowing">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">
-              <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <Brain size={16} color="var(--primary)" /> Topic Name
-              </span>
-            </label>
+            <label className="form-label">Topic Name</label>
             <input
               type="text"
               className="form-input"
@@ -64,11 +60,7 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <MessageSquare size={16} color="var(--primary)" /> Notes, Text, or Code Snippet (Optional)
-              </span>
-            </label>
+            <label className="form-label">Notes, Text, or Code Snippet (Optional)</label>
             <textarea
               className="form-textarea"
               placeholder="Paste any detailed study notes, textbook paragraphs, or source code here..."
@@ -79,11 +71,7 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <Cpu size={16} color="var(--primary)" /> Difficulty Level
-              </span>
-            </label>
+            <label className="form-label">Difficulty Level</label>
             <div className="segmented-control">
               {["Easy", "Medium", "Hard"].map((level) => (
                 <button
@@ -100,7 +88,7 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
           </div>
 
           {error && (
-            <div style={{ color: "var(--error)", fontSize: "0.875rem", marginBottom: "16px", display: "flex", alignItems: "center", gap: "6px" }}>
+            <div style={{ color: "var(--error)", fontSize: "0.875rem", marginBottom: "16px", display: "flex", alignItems: "center", gap: "6px", fontWeight: 500 }}>
               ⚠️ {error}
             </div>
           )}
@@ -108,7 +96,7 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ width: "100%", height: "48px" }}
+            style={{ width: "100%", height: "50px", fontSize: "0.95rem" }}
             disabled={isLoading}
           >
             <Sparkles size={18} />
@@ -116,8 +104,8 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
           </button>
         </form>
 
-        <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid var(--border-color)" }}>
-          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>
+        <div style={{ marginTop: "28px", paddingTop: "24px", borderTop: "1px solid var(--border-color)" }}>
+          <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "14px" }}>
             Or try these popular topics:
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
@@ -125,8 +113,7 @@ export const StudyInput: React.FC<StudyInputProps> = ({ onSubmit, isLoading }) =
               <button
                 key={idx}
                 type="button"
-                className="btn btn-secondary"
-                style={{ padding: "8px 12px", fontSize: "0.8rem", borderRadius: "20px" }}
+                className="btn btn-secondary suggestion-chip"
                 onClick={() => handleSuggestionClick(sug)}
                 disabled={isLoading}
               >

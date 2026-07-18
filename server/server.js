@@ -235,7 +235,7 @@ app.post("/api/generate", async (req, res) => {
     const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     // Use the latest recommended model for fast structured JSON outputs
     const model = ai.getGenerativeModel({
-      model: "gemini-flash-latest",
+      model: "gemini-3.5-flash",
       generationConfig: {
         responseMimeType: "application/json",
       }
@@ -270,7 +270,8 @@ You MUST return a JSON object matching this exact schema:
 }
 
 Difficulty level requested: ${difficulty}.
-Ensure the flashcards cover a wide range of facts, and the quiz has at least 3-5 multiple-choice questions with plausible distractor options.`;
+Ensure the flashcards cover a wide range of facts, and the quiz has at least 3-5 multiple-choice questions with plausible distractor options.
+CRITICAL FORMATTING INSTRUCTION: Do NOT use LaTeX markup notations (like $$, \[, \\xrightarrow, \\text, etc.) for math formulas or chemical equations. Instead, write equations and formulas in simple, plain, readable formatted text (e.g. "6CO2 + 6H2O -> C6H12O6 + 6O2" or using standard Unicode subscript characters). All formulas must be outputted as clear human-readable strings.`;
 
     const result = await model.generateContent({
       contents: [{ role: "user", parts: [{ text: `${systemPrompt}\n\nUser Input:\n${query}` }] }]

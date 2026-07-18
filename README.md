@@ -70,10 +70,13 @@ npm run dev
 
 ## 🤖 AI Usage Note
 
-As requested, here is a summary of what AI was used for in this project:
-- Refined the custom **JSON balancing parser** to handle nested arrays and close strings/brackets recursively in JavaScript.
-- Optimized the **3D rotate transition** and card positioning inside `index.css`.
-- Generated the list of witty loader phrases and mock database sets.
+This project was built and refined in a collaborative pair-programming workflow with **Antigravity**, an agentic AI coding assistant by Google DeepMind. Here is a breakdown of what AI was utilized for:
+
+- **Architecture & System Prompts**: Designed the structured Node.js proxy flow and customized the LLM system prompt to prevent LaTeX output leakage while assuring clean JSON block payloads.
+- **Robust JSON Healing**: Developed and refined the brackets-matching JSON tokenizer and schema normalizer in the frontend client.
+- **Mobile-First Responsive Overhaul**: Rebuilt the stylesheet to use responsive CSS variables, flex layout reflows, a sliding off-canvas drawer navigation menu on mobile, and a glassmorphic backdrop filter.
+- **Brand Colors & Polish**: Coordinated visual updates to Oromex Blue (`#2563eb`) and Red (`#dc2626`), and fixed layout spacing and color mismatches (e.g. correct answer highlights, and success green scores).
+- **Localized UI Restructuring**: Moved the tab bar controller inside the right column widget container to align perfectly with interactive card borders in both desktop and mobile views.
 
 ---
 

@@ -15,6 +15,7 @@ export default function App() {
   const [studySet, setStudySet] = useState<StudySet | null>(null);
   const [activeSessionId, setActiveSessionId] = useState<string | undefined>(undefined);
   const [activeTab, setActiveTab] = useState<"flashcards" | "quiz">("flashcards");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   // Loading & Error states
   const [isLoading, setIsLoading] = useState(false);
@@ -121,11 +122,13 @@ export default function App() {
     setIsMockData(false); // Saved data doesn't trigger active warning
     setView("dashboard");
     setActiveTab("flashcards");
+    setIsSidebarOpen(false);
   };
 
   const handleDeleteSession = (id: string) => {
     const updated = sessions.filter((s) => s.id !== id);
     saveSessionsToLocalStorage(updated);
+    setIsSidebarOpen(false);
     
     if (activeSessionId === id) {
       setStudySet(null);
@@ -148,66 +151,70 @@ export default function App() {
         activeSessionId={activeSessionId}
         onSelectSession={handleSelectSession}
         onDeleteSession={handleDeleteSession}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
+
+      {/* Backdrop overlay for mobile sidebar */}
+      {isSidebarOpen && (
+        <div className="sidebar-backdrop" onClick={() => setIsSidebarOpen(false)}></div>
+      )}
 
       {/* Main panel content */}
       <div className="main-content">
-        {/* On smaller screens the sidebar hides */}
-        <style>{`
-          @media (max-width: 1024px) {
-            aside { display: none !important; }
-          }
-        `}</style>
-
         <Navbar
           isMockData={isMockData}
           activeTitle={studySet?.title}
           onNewClick={handleNewStudyClick}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        <div style={{ flex: 1, position: "relative" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, position: "relative", overflow: "hidden" }}>
           {view === "input" && (
-            <StudyInput onSubmit={handleGenerate} isLoading={isLoading} />
+            <div style={{ flex: 1, overflowY: "auto" }}>
+              <StudyInput onSubmit={handleGenerate} isLoading={isLoading} />
+            </div>
           )}
 
-          {view === "loading" && <LoadingState />}
+          {view === "loading" && (
+            <div style={{ flex: 1, overflowY: "auto" }}>
+              <LoadingState />
+            </div>
+          )}
 
           {view === "error" && (
-            <ErrorState message={errorMsg} rawText={rawText} onRetry={handleRetry} />
+            <div style={{ flex: 1, overflowY: "auto" }}>
+              <ErrorState message={errorMsg} rawText={rawText} onRetry={handleRetry} />
+            </div>
           )}
 
           {view === "dashboard" && studySet && (
-            <div>
-              {/* Tab navigation */}
-              <div className="tabs-container">
-                <button
-                  className={`tab-btn ${activeTab === "flashcards" ? "active" : ""}`}
-                  onClick={() => setActiveTab("flashcards")}
-                >
-                  <BookOpen size={16} /> Flashcards
-                </button>
-                <button
-                  className={`tab-btn ${activeTab === "quiz" ? "active" : ""}`}
-                  onClick={() => setActiveTab("quiz")}
-                >
-                  <HelpCircle size={16} /> Practice Quiz
-                </button>
-              </div>
-
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
               {/* Dashboard Content Grid */}
-              <div className="dashboard-grid">
+              <div className="dashboard-grid" style={{ flex: 1, overflowY: "auto" }}>
                 {/* Left Panel: Markdown summary and definitions */}
                 <SummaryBlock summary={studySet.summary} concepts={studySet.keyConcepts} />
 
                 {/* Right Panel: Interactive dynamic tabbed content */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                <div style={{ display: "flex", flexDirection: "column", height: "fit-content" }}>
+                  {/* Tab navigation locally inside the right column */}
+                  <div className="tabs-container">
+                    <button
+                      className={`tab-btn ${activeTab === "flashcards" ? "active" : ""}`}
+                      onClick={() => setActiveTab("flashcards")}
+                    >
+                      <BookOpen size={16} /> Flashcards
+                    </button>
+                    <button
+                      className={`tab-btn ${activeTab === "quiz" ? "active" : ""}`}
+                      onClick={() => setActiveTab("quiz")}
+                    >
+                      <HelpCircle size={16} /> Practice Quiz
+                    </button>
+                  </div>
+
                   {activeTab === "flashcards" ? (
-                    <div className="card">
-                      <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "16px", color: "var(--primary)" }}>
-                        Interactive Flashcards
-                      </h3>
-                      <Flashcards cards={studySet.flashcards} isActive={activeTab === "flashcards"} />
-                    </div>
+                    <Flashcards cards={studySet.flashcards} isActive={activeTab === "flashcards"} />
                   ) : (
                     <Quiz questions={studySet.quiz} />
                   )}

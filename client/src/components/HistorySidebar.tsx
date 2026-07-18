@@ -1,12 +1,14 @@
 import React from "react";
 import type { HistorySession } from "../types";
-import { BookMarked, Trash2, Clock } from "lucide-react";
+import { BookMarked, Trash2, Clock, X } from "lucide-react";
 
 interface HistorySidebarProps {
   sessions: HistorySession[];
   activeSessionId?: string;
   onSelectSession: (session: HistorySession) => void;
   onDeleteSession: (id: string) => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const HistorySidebar: React.FC<HistorySidebarProps> = ({
@@ -14,6 +16,8 @@ export const HistorySidebar: React.FC<HistorySidebarProps> = ({
   activeSessionId,
   onSelectSession,
   onDeleteSession,
+  isOpen,
+  onClose,
 }) => {
   const formatDate = (isoString: string) => {
     try {
@@ -25,18 +29,7 @@ export const HistorySidebar: React.FC<HistorySidebarProps> = ({
   };
 
   return (
-    <aside
-      style={{
-        background: "rgba(10, 11, 16, 0.95)",
-        borderRight: "1px solid var(--border-color)",
-        height: "100vh",
-        width: "280px",
-        display: "flex",
-        flexDirection: "column",
-        zIndex: 30,
-        overflowY: "auto",
-      }}
-    >
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
       {/* Sidebar Header */}
       <div
         style={{
@@ -44,11 +37,32 @@ export const HistorySidebar: React.FC<HistorySidebarProps> = ({
           borderBottom: "1px solid var(--border-color)",
           display: "flex",
           alignItems: "center",
-          gap: "10px",
+          justifyContent: "space-between",
+          width: "100%",
         }}
       >
-        <BookMarked size={20} color="var(--primary)" />
-        <span style={{ fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.02em" }}>Saved Study Sets</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "28px", height: "28px", borderRadius: "50%", background: "rgba(37, 99, 235, 0.08)", color: "var(--primary)" }}>
+            <BookMarked size={14} />
+          </div>
+          <span style={{ fontWeight: 800, fontSize: "0.95rem", letterSpacing: "0.02em", color: "var(--text-primary)" }}>Saved Study Sets</span>
+        </div>
+        <button
+          className="sidebar-close-btn"
+          onClick={onClose}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "4px",
+            color: "var(--text-secondary)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <X size={18} />
+        </button>
       </div>
 
       {/* Sessions List */}
@@ -68,23 +82,22 @@ export const HistorySidebar: React.FC<HistorySidebarProps> = ({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  padding: "12px 14px",
-                  background: isActive ? "rgba(139, 92, 246, 0.08)" : "transparent",
-                  border: "1px solid",
-                  borderColor: isActive ? "rgba(139, 92, 246, 0.3)" : "transparent",
-                  borderRadius: "8px",
+                  padding: "10px 12px",
+                  background: isActive ? "#f1f5f9" : "transparent",
+                  border: "1px solid transparent",
+                  borderRadius: "6px",
                   cursor: "pointer",
                   transition: "all var(--transition-fast)",
                   position: "relative",
                 }}
-                className="sidebar-item"
+                className={`sidebar-item ${isActive ? "active" : ""}`}
               >
                 <div style={{ flex: 1, minWidth: 0, paddingRight: "10px" }}>
                   <div
                     style={{
-                      fontWeight: 600,
+                      fontWeight: isActive ? 700 : 600,
                       fontSize: "0.875rem",
-                      color: isActive ? "var(--primary)" : "var(--text-primary)",
+                      color: "var(--text-primary)",
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -117,7 +130,7 @@ export const HistorySidebar: React.FC<HistorySidebarProps> = ({
                     justifyContent: "center",
                     transition: "all var(--transition-fast)"
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = "var(--error)"; e.currentTarget.style.background = "rgba(239, 68, 68, 0.08)"; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "var(--error)"; e.currentTarget.style.background = "var(--error-bg)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; e.currentTarget.style.background = "transparent"; }}
                   title="Delete study set"
                 >

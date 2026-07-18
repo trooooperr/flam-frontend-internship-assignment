@@ -29,8 +29,18 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
   }, [totalCards]);
 
   const handleFlip = useCallback(() => {
-    setIsFlipped((prev) => !prev);
-  }, []);
+    setIsFlipped((prev) => {
+      const nextFlipped = !prev;
+      if (nextFlipped) {
+        // Automatically mark as completed/mastered when showing answer
+        setMasteredCards((mastered) => ({
+          ...mastered,
+          [currentIndex]: true
+        }));
+      }
+      return nextFlipped;
+    });
+  }, [currentIndex]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -74,7 +84,10 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
   const masterPercent = Math.round((masteredCount / totalCards) * 100);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px", width: "100%", padding: "20px 0" }}>
+    <div className="card" style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%", height: "fit-content" }}>
+      <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text-primary)", width: "100%", textAlign: "left" }}>
+        Interactive Flashcards
+      </h3>
       
       {/* Mastery Progress Bar */}
       <div style={{ width: "100%", maxWidth: "600px" }}>
@@ -82,8 +95,8 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
           <span style={{ fontWeight: 600 }}>Mastery Progress</span>
           <span>{masteredCount} of {totalCards} cards ({masterPercent}%)</span>
         </div>
-        <div style={{ width: "100%", height: "8px", background: "rgba(255, 255, 255, 0.05)", borderRadius: "9999px", overflow: "hidden", border: "1px solid var(--border-color)" }}>
-          <div style={{ width: `${masterPercent}%`, height: "100%", background: "var(--secondary)", transition: "width var(--transition-normal)" }}></div>
+        <div style={{ width: "100%", height: "4px", background: "#e2e8f0", borderRadius: "9999px", overflow: "hidden" }}>
+          <div style={{ width: `${masterPercent}%`, height: "100%", background: "var(--primary)", transition: "width var(--transition-normal)" }}></div>
         </div>
       </div>
 
@@ -94,7 +107,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
           {/* FRONT SIDE */}
           <div className="flashcard-front">
             <span className="badge badge-front">Question</span>
-            <div style={{ fontSize: "1.35rem", fontWeight: 600, lineHeight: 1.5, flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ fontSize: "1.35rem", fontWeight: 700, lineHeight: 1.5, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", color: "var(--text-primary)" }}>
               {currentCard.front}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "20px" }}>
@@ -116,14 +129,14 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
               }}
               title="Mark as mastered"
             >
-              <CheckCircle size={24} fill={isMastered ? "rgba(16, 185, 129, 0.2)" : "none"} />
+              <CheckCircle size={24} fill={isMastered ? "rgba(16, 185, 129, 0.15)" : "none"} />
             </button>
           </div>
 
           {/* BACK SIDE */}
           <div className="flashcard-back">
             <span className="badge badge-back">Answer</span>
-            <div style={{ fontSize: "1.25rem", fontWeight: 500, lineHeight: 1.6, flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ fontSize: "1.25rem", fontWeight: 700, lineHeight: 1.6, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", color: "var(--text-primary)" }}>
               {currentCard.back}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "20px" }}>
@@ -145,7 +158,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
               }}
               title="Mark as mastered"
             >
-              <CheckCircle size={24} fill={isMastered ? "rgba(16, 185, 129, 0.2)" : "none"} />
+              <CheckCircle size={24} fill={isMastered ? "rgba(16, 185, 129, 0.15)" : "none"} />
             </button>
           </div>
 
@@ -157,7 +170,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
         <button className="btn btn-secondary" onClick={handlePrev} style={{ borderRadius: "50%", padding: "12px", width: "48px", height: "48px" }}>
           <ChevronLeft size={20} />
         </button>
-        <span style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)" }}>
+        <span style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--text-secondary)" }}>
           {currentIndex + 1} / {totalCards}
         </span>
         <button className="btn btn-secondary" onClick={handleNext} style={{ borderRadius: "50%", padding: "12px", width: "48px", height: "48px" }}>
@@ -166,10 +179,8 @@ export const Flashcards: React.FC<FlashcardsProps> = ({ cards, isActive }) => {
       </div>
 
       {/* Keyboard Shortcuts Hint */}
-      <div style={{ display: "flex", gap: "16px", fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "12px" }}>
-        <span><kbd style={{ background: "rgba(255,255,255,0.08)", padding: "2px 6px", borderRadius: "4px", marginRight: "4px" }}>←</kbd> Prev</span>
-        <span><kbd style={{ background: "rgba(255,255,255,0.08)", padding: "2px 6px", borderRadius: "4px", marginRight: "4px" }}>Space</kbd> Flip</span>
-        <span><kbd style={{ background: "rgba(255,255,255,0.08)", padding: "2px 6px", borderRadius: "4px", marginRight: "4px" }}>→</kbd> Next</span>
+      <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "8px", letterSpacing: "0.02em" }}>
+        Tip: Use keyboard arrows <b>←</b> <b>→</b> to navigate, and <b>Space</b> to flip
       </div>
     </div>
   );

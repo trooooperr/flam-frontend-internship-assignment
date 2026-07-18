@@ -55,13 +55,13 @@ export const LoadingState: React.FC = () => {
       {/* Skeletons */}
       <div style={{ width: "100%", marginTop: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
         <div className="card pulse" style={{ height: "120px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div style={{ height: "20px", width: "40%", background: "rgba(255,255,255,0.05)", borderRadius: "4px" }}></div>
-          <div style={{ height: "12px", width: "90%", background: "rgba(255,255,255,0.03)", borderRadius: "4px" }}></div>
-          <div style={{ height: "12px", width: "70%", background: "rgba(255,255,255,0.03)", borderRadius: "4px" }}></div>
+          <div style={{ height: "20px", width: "40%", background: "#e2e8f0", borderRadius: "4px" }}></div>
+          <div style={{ height: "12px", width: "90%", background: "#f1f5f9", borderRadius: "4px" }}></div>
+          <div style={{ height: "12px", width: "70%", background: "#f1f5f9", borderRadius: "4px" }}></div>
         </div>
         <div className="card pulse" style={{ height: "80px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div style={{ height: "12px", width: "30%", background: "rgba(255,255,255,0.05)", borderRadius: "4px" }}></div>
-          <div style={{ height: "12px", width: "80%", background: "rgba(255,255,255,0.03)", borderRadius: "4px" }}></div>
+          <div style={{ height: "12px", width: "30%", background: "#e2e8f0", borderRadius: "4px" }}></div>
+          <div style={{ height: "12px", width: "80%", background: "#f1f5f9", borderRadius: "4px" }}></div>
         </div>
       </div>
     </div>
@@ -81,10 +81,10 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ message, rawText, onRetr
   return (
     <div style={{ maxWidth: "600px", margin: "60px auto", padding: "0 20px" }}>
       <div className="card" style={{ borderColor: "var(--error)", borderStyle: "dashed", textAlign: "center", padding: "40px" }}>
-        <div style={{ display: "inline-flex", background: "var(--error-glow)", padding: "16px", borderRadius: "50%", color: "var(--error)", marginBottom: "20px" }}>
+        <div style={{ display: "inline-flex", background: "#fee2e2", padding: "16px", borderRadius: "50%", color: "var(--error)", marginBottom: "20px" }}>
           <AlertCircle size={32} />
         </div>
-        <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "12px" }}>AI Parsing Error</h3>
+        <h3 style={{ fontSize: "1.25rem", fontWeight: 800, marginBottom: "12px", color: "var(--text-primary)" }}>AI Parsing Error</h3>
         <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "24px" }}>
           {message}
         </p>
@@ -123,10 +123,10 @@ interface EmptyStateProps {
 export const EmptyState: React.FC<EmptyStateProps> = ({ onNew }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 20px", textAlign: "center" }}>
-      <div style={{ background: "rgba(139,92,246,0.1)", padding: "20px", borderRadius: "50%", color: "var(--primary)", marginBottom: "24px" }}>
+      <div style={{ background: "#f1f5f9", padding: "20px", borderRadius: "50%", color: "var(--primary)", marginBottom: "24px" }}>
         <BookOpen size={40} />
       </div>
-      <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "12px" }}>No Study Material Loaded</h3>
+      <h3 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: "12px", color: "var(--text-primary)" }}>No Study Material Loaded</h3>
       <p style={{ color: "var(--text-secondary)", fontSize: "1rem", maxWidth: "450px", marginBottom: "24px" }}>
         Get started by creating a new custom study guide based on notes, textbooks, or quick prompt ideas.
       </p>

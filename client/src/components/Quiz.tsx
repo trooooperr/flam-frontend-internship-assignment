@@ -115,13 +115,16 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   const scorePercent = Math.round((correctCount / totalQuestions) * 100);
 
   return (
-    <div style={{ maxWidth: "680px", margin: "0 auto", width: "100%", padding: "20px 0" }}>
+    <div style={{ maxWidth: "680px", margin: "0 auto", width: "100%", padding: "0 0 20px 0", height: "fit-content" }}>
       {quizState === "in-progress" ? (
         <div className="card">
           {/* Quiz Header Info */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid var(--border-color)", paddingBottom: "12px" }}>
-            <span style={{ fontSize: "0.85rem", color: "var(--primary)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              {isReTest ? "🔥 Re-Testing Weak Areas" : "📝 Practice Quiz"}
+            <span style={{ fontSize: "0.95rem", color: "var(--text-primary)", fontWeight: 800, display: "flex", alignItems: "center" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "26px", height: "26px", borderRadius: "50%", background: "rgba(37, 99, 235, 0.08)", color: "var(--primary)", marginRight: "8px" }}>
+                <HelpCircle size={13} />
+              </span>
+              {isReTest ? "Re-Testing Weak Areas" : "Practice Quiz"}
             </span>
             <span style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>
               Question {currentIndex + 1} of {totalQuestions}
@@ -129,7 +132,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
           </div>
 
           {/* Question Text */}
-          <h3 style={{ fontSize: "1.2rem", fontWeight: 700, lineHeight: 1.5, marginBottom: "24px" }}>
+          <h3 style={{ fontSize: "1.2rem", fontWeight: 700, lineHeight: 1.5, marginBottom: "24px", color: "var(--text-primary)" }}>
             {currentQuestion.question}
           </h3>
 
@@ -162,7 +165,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
                 >
                   <div className="option-index">{alphabet}</div>
                   <div style={{ flex: 1 }}>{option}</div>
-                  {hasAnswered && isSelected && isCorrect && <Check size={18} color="var(--secondary)" />}
+                  {hasAnswered && isSelected && isCorrect && <Check size={18} color="#10b981" />}
                   {hasAnswered && isSelected && !isCorrect && <X size={18} color="var(--error)" />}
                 </div>
               );
@@ -172,10 +175,10 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
           {/* Answer Explanation & Next Trigger */}
           {selectedOption !== null && (
             <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid var(--border-color)", animation: "fadeIn 0.25s ease" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", background: "rgba(255,255,255,0.02)", padding: "16px", borderRadius: "8px", borderLeft: "4px solid var(--primary)", marginBottom: "20px" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", background: "#f8fafc", padding: "16px", borderRadius: "8px", marginBottom: "20px" }}>
                 <HelpCircle size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "#fff", marginBottom: "4px" }}>
+                  <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--text-primary)", marginBottom: "4px" }}>
                     Explanation
                   </div>
                   <div style={{ fontSize: "0.875rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
@@ -195,11 +198,11 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
       ) : (
         /* QUIZ SCORE / RESULTS DASHBOARD */
         <div className="card" style={{ textAlign: "center", padding: "40px 24px" }}>
-          <div style={{ display: "inline-flex", background: "rgba(139,92,246,0.1)", padding: "20px", borderRadius: "50%", color: "var(--primary)", marginBottom: "24px" }}>
+          <div style={{ display: "inline-flex", background: "#f1f5f9", padding: "20px", borderRadius: "50%", color: "var(--primary)", marginBottom: "24px" }}>
             <Trophy size={48} />
           </div>
           
-          <h2 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: "8px" }}>
+          <h2 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: "8px", color: "var(--text-primary)" }}>
             Quiz Completed!
           </h2>
           <p style={{ color: "var(--text-secondary)", marginBottom: "32px" }}>
@@ -213,7 +216,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
                 cx="80"
                 cy="80"
                 r="70"
-                stroke="rgba(255,255,255,0.04)"
+                stroke="var(--border-color)"
                 strokeWidth="10"
                 fill="transparent"
               />
@@ -221,7 +224,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
                 cx="80"
                 cy="80"
                 r="70"
-                stroke={scorePercent === 100 ? "var(--secondary)" : "var(--primary)"}
+                stroke={scorePercent === 100 ? "#10b981" : "var(--primary)"}
                 strokeWidth="10"
                 fill="transparent"
                 strokeDasharray="440"
@@ -230,8 +233,8 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
               />
             </svg>
             <div style={{ position: "absolute", display: "flex", flexDirection: "column" }}>
-              <span style={{ fontSize: "2rem", fontWeight: 800 }}>{correctCount} / {totalQuestions}</span>
-              <span style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: 600 }}>CORRECT</span>
+              <span style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text-primary)" }}>{correctCount} / {totalQuestions}</span>
+              <span style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: 700 }}>CORRECT</span>
             </div>
           </div>
 
