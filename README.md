@@ -2,7 +2,7 @@
 
 AetherStudy.ai is a premium, interactive AI study assistant built with React, TypeScript, and Node.js. It transforms free-form notes, textbook paragraphs, or prompt topics into comprehensive study guides complete with structured summaries, interactive key concepts, 3D animated flashcards, and a practice quiz featuring a dedicated "Re-test Wrong Answers" loop for targeted mastery.
 
-## 🚀 Quick Start (Local Run)
+## Quick Start (Local Run)
 
 To run the application locally, you will spin up both the backend proxy gateway and the Vite React frontend.
 
@@ -39,7 +39,7 @@ npm run dev
 
 ---
 
-## 🎨 UI/UX Features & Polish
+## UI/UX Features & Polish
 
 1. **Dashboard Interface**: Displays a sidebar on the left containing historical saved sessions (persisted in `localStorage`), and a main workspace split into:
    - **Left Column**: Summary view with a custom Markdown text parser + interactive key concepts. Clicking on concepts highlights them and expands their definition.
@@ -57,7 +57,7 @@ npm run dev
 
 ---
 
-## 🛡️ Robust AI Integration & Error Handling
+## Robust AI Integration & Error Handling
 
 - **Proxy Backend Architecture**: Never exposes API keys directly to the client. The frontend talks to the Node.js backend proxy.
 - **Gemini Structured JSON Mode**: Configures Gemini to return JSON payloads conforming to a strict schema (`responseMimeType: "application/json"`).
@@ -68,7 +68,7 @@ npm run dev
 
 ---
 
-## 🤖 AI Usage Note
+## AI Usage Note
 
 This project was built and refined in a collaborative pair-programming workflow with **Antigravity**, an agentic AI coding assistant by Google DeepMind. Here is a breakdown of what AI was utilized for:
 
@@ -80,7 +80,7 @@ This project was built and refined in a collaborative pair-programming workflow 
 
 ---
 
-## ⏱️ Time Spent & Limitations
+## Time Spent & Limitations
 
 ### Time Spent
 - **Planning & Schema Design**: 1 hour
